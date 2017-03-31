@@ -28,3 +28,14 @@ h1 {
 	margin-right: 2rem;
 	margin-top: 1.5rem;
 }
+
+.task span {
+	font-size: 16px;
+}
+
+.task {
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}

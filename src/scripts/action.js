@@ -1,48 +1,61 @@
-
 import STORE from './store'
+import {TaskModel} from './models/taskModel'
 
 var ACTION = {
 	//adding task to undone items
 	recordNewTask: function(newTask){
-		var currentItems = STORE.data.undoneItems
-		currentItems.push(newTask)
-		STORE.set({
-			undoneItems: currentItems
+
+		var newTask = new TaskModel({ taskName: newTask })
+		newTask.save().then(
+			function(response){
+				ACTION.fetchTasks()
+			}) ,
+			function(error){
+				alert("problem saving your task")
+			}
+	},
+	fetchTasks: function(){
+		var taskColl = STORE.data.taskCollection
+
+		taskColl.fetch()
+			.then(function() {
+				STORE.set({
+					taskCollection: taskColl
+				})
 			})
 	},
-	//move task from done to undone
-	recordDoneTask: function(doneTask){
-		var doneItems = STORE.data.doneItems
-		doneItems.push(doneTask)
-		STORE.set({
-			doneItems: doneItems
-		})
-
-		// remove from the undoneItems
-		var undoneItems = STORE.data.undoneItems
-		undoneItems = undoneItems.filter(function(task){
-			return task !== doneTask
-		})
-		STORE.set({
-			undoneItems: undoneItems
-		})
+	recordDoneTask: function(task){
+		task.set('taskComplete', true)
+		task.save().then(
+			function(response){
+				ACTION.fetchTasks()
+			} ,
+			function(error){
+				alert("problem saving your task")
+			}
+		)
 	},
-	//move task from undone to done
-	recordUnDoneTask: function(unDoneTask){
-		var unDoneItems = STORE.data.undoneItems
-		unDoneItems.push(unDoneTask)
-		STORE.set({
-			undoneItems: unDoneItems
-		})
+	recordUndoneTask: function(task){
+		task.set('taskComplete', false)
+		task.save().then(
+			function(response){
+				ACTION.fetchTasks()
+			} ,
+			function(error){
+				alert("problem saving your task")
+			}
+		)
+	},
 
-		// remove from the doneItems
-		var doneItems = STORE.data.doneItems
-		doneItems = doneItems.filter(function(task){
-			return task !== unDoneTask
-		})
-		STORE.set({
-			doneItems: doneItems
-		})
+	recordDeleteTask: function(task){
+		task.destroy().then(
+			function(response){
+				ACTION.fetchTasks()
+			} ,
+			function(error){
+				alert("problem deleting your task")
+			}
+		)
 	}
 
 }

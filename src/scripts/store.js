@@ -1,9 +1,9 @@
 import Backbone from 'backbone'
-
+import {TaskCollection} from './models/taskModel.js'
+	
 var STORE = Object.assign({},Backbone.Events,{
 	data: {
-		doneItems: [],
-		undoneItems: []
+		taskCollection: new TaskCollection() 
 	},
 
 	set: function(obj){

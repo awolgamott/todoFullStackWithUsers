@@ -4,10 +4,11 @@ import Backbone from 'backbone'
 import ACTION from '../../action'
 import Banner from './banner'
 import NewTaskForm from './newtaskform'
-
+import Task from './task'
 
 var UndoneView = React.createClass({
 	componentWillMount: function(){
+		ACTION.fetchTasks()
 		STORE.on('dataUpdated', () => {
 			this.setState(STORE.data)
 		})
@@ -17,39 +18,25 @@ var UndoneView = React.createClass({
 		STORE.off('dataUpdated')
 	},
 
-	handleClickOnUnDone: function(event){
-		ACTION.recordDoneTask(event.target.value);
-	},
-
-	handleClickOnDone: function(event){
-		ACTION.recordUnDoneTask(event.target.value);
-	},
-
-
 	getInitialState: function(){
 		return STORE.data // get latest data
 	},
-	render: function(){		
+	render: function(){	
 
-		// in all items, show all items in the "items" array
-
+		var tasks = this.state.taskCollection.models;
+		var undoneTasks = tasks.filter( (function(task){
+			return task.get("taskComplete") === false;
+		}))
 		return (
 			<div>
 				<Banner />
 				<NewTaskForm />
-
 				<div className='list'>
-					{this.state.undoneItems.map( (item) => {
-						return <div key={item}> 
-							<input type="checkbox"
-										onChange={this.handleClickOnUnDone}
-										value={item}
-										/>
-									{item}
-							</div>
+					{
+						undoneTasks.map( (item) => {
+							return <Task key={item.get('_id')} task={item} />
 						})
-					}
-
+					}	
 				</div>
 			</div>
 		)
