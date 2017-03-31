@@ -1,5 +1,5 @@
-## TooMuch To Do
-To-Do List app using model-view architecture (required view: React). Has three routes/views: all tasks, done tasks, and undone tasks, where each view shows only its designated subset of tasks.
+## TooMuch To Do (Full Stack)
+To-Do List app using model-view architecture (required view: React). Stores data in a mongo database via API. Has three routes/views: all tasks, done tasks, and undone tasks, where each view shows only its designated subset of tasks.
 
 ## Capabilities
 
@@ -10,7 +10,7 @@ User should be able to:
 1. add additional information about a task, such as its description and due date.
 4. toggle task's completion status. 
 
-https://awo-fluxtodo.herokuapp.com/#all
+https://awo-todo-fullstack.herokuapp.com/#all
 
 ### LICENSE
 
