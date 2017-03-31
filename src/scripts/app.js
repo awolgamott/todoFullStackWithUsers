@@ -2,7 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Backbone from 'backbone'
 import init from './init'
-
+import User from './models/userModel'
+import LoginView from './views/components/loginview'
 import AllView from './views/components/allview'
 import DoneView from './views/components/doneview'
 import UndoneView from './views/components/undoneview'
@@ -13,19 +14,46 @@ var app = function() {
 			"all" : "handleAll",
 			"done" : "handleDone",
 			"undone" : "handleUndone",
+			"login" : "handleLogin",
+			"logout" : "handleLogout",
 			"*other": "redirect"
 		},
 		handleAll : function(){
-			ReactDOM.render(<AllView />,  document.querySelector('.container'))
+			var user = User.getCurrentUser()
+			if (!user) {
+				location.hash = 'login'
+			} 
+			else {
+				ReactDOM.render(<AllView />,  document.querySelector('.container'))
+			}
 		},
 		handleDone : function(){
-			ReactDOM.render(<DoneView />,  document.querySelector('.container'))
+			var user = User.getCurrentUser()
+			if (!user) {
+				location.hash = 'login'
+			} 
+			else {
+				ReactDOM.render(<DoneView />,  document.querySelector('.container'))
+			}
 		},
 		handleUndone : function(){
-			ReactDOM.render(<UndoneView />,  document.querySelector('.container'))
+			var user = User.getCurrentUser()
+			if (!user) {
+				location.hash = 'login'
+			} 
+			else {
+				ReactDOM.render(<UndoneView />,  document.querySelector('.container'))
+			}
 		},
-		redirect: function() {
-			location.hash = 'all'
+		handleLogin: function(){
+			ReactDOM.render(<LoginView />, document.querySelector('.container'))
+		},
+		handleLogout: function(){
+			User.logout()
+			location = "/"
+		},
+		redirect: function(){
+			location.hash = "all"
 		}
 	})
 	new ListRouter ()

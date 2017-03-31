@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema({
 const taskSchema = new mongoose.Schema({
 	taskName: { type: String, required: true },
 	taskComplete: {type: Boolean, required: true, default: false },
+  userId: {type: String, required: true},
 	createdAt: { type: Date, default: Date.now }
 })
 

@@ -39,3 +39,17 @@ h1 {
     align-items: center;
 
 }
+
+.header-nav {
+	display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.signin-forms{
+	height: 50vh;
+	display: flex;
+    align-items: center;
+    justify-content: space-around;	
+}
